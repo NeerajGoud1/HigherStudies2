@@ -30,6 +30,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import CloseIcon from "@mui/icons-material/Close";
+import Container from "@mui/material/Container";
 
 const ExamReport = () => {
   const [originalData, setOriginalData] = useState([]);
@@ -232,7 +233,7 @@ const ExamReport = () => {
             open={openModal}
             onClose={() => setOpenModal(false)}
             fullWidth
-            maxWidth="md"
+            maxWidth="lg"
           >
             <DialogTitle>
               Detailed Report - {selectedYear}
@@ -256,6 +257,15 @@ const ExamReport = () => {
                         <strong>Roll No</strong>
                       </TableCell>
                       <TableCell>
+                        <strong>Branch</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Mobile Number</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Email Address</strong>
+                      </TableCell>
+                      <TableCell>
                         <strong>Passed Out Year</strong>
                       </TableCell>
                       <TableCell>
@@ -264,6 +274,9 @@ const ExamReport = () => {
                       <TableCell>
                         <strong>Registration Number</strong>
                       </TableCell>
+                      <TableCell>
+                        <strong>Score</strong>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -271,9 +284,13 @@ const ExamReport = () => {
                       <TableRow key={idx}>
                         <TableCell>{item.name}</TableCell>
                         <TableCell>{item.rollNo}</TableCell>
+                        <TableCell>{item.branch}</TableCell>
+                        <TableCell>{item.mobileNo}</TableCell>
+                        <TableCell>{item.email}</TableCell>
                         <TableCell>{item.passedOutYear}</TableCell>
                         <TableCell>{item.examType}</TableCell>
                         <TableCell>{item.registrationNo}</TableCell>
+                        <TableCell>{item.score}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

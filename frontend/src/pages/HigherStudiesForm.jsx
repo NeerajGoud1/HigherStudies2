@@ -7,21 +7,46 @@ import * as React from "react";
 import Alert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
 import File from "../components/File";
-
+import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 export default function HigherStudiesForm() {
   const [formData, setFormData] = useState({
     name: "",
     rollNo: "",
-    joiningInstitute: "",
-    joiningYear: "",
+    branch: "",
+    mobileNo: "",
+    email: "",
+    joiningInstituteName: "",
+    yearOfAdmission: "",
     passedOutYear: "",
+    course: "",
+    customCourse: "",
   });
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showUnSuccessAltert, setShowUnSuccessAltert] = useState(false);
   const [resMsg, setResMsg] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "course") {
+      setFormData((prev) => ({
+        ...prev,
+        course: value,
+        customCourse: value === "other" ? prev.customCourse : "",
+      }));
+    } else if (name === "customCourse") {
+      setFormData((prev) => ({
+        ...prev,
+        customCourse: value,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: name === "mobileNo" ? String(value) : value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -47,9 +72,14 @@ export default function HigherStudiesForm() {
       setFormData({
         name: "",
         rollNo: "",
-        joiningInstitute: "",
-        joiningYear: "",
+        branch: "",
+        mobileNo: "",
+        email: "",
+        joiningInstituteName: "",
+        yearOfAdmission: "",
         passedOutYear: "",
+        course: "",
+        customCourse: "",
       });
     } catch (error) {
       setResMsg(res.data.message);
@@ -165,6 +195,33 @@ export default function HigherStudiesForm() {
               required
             />
             <TextField
+              label="Branch"
+              name="branch"
+              value={formData.branch}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Mobile Number"
+              name="mobileNo"
+              value={formData.mobileNo}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
+              label="Email Address"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              fullWidth
+              margin="normal"
+              required
+            />
+            <TextField
               label="Passed Out Year"
               name="passedOutYear"
               type="number"
@@ -176,8 +233,8 @@ export default function HigherStudiesForm() {
             />
             <TextField
               label="New Institute Name"
-              name="joiningInstitute"
-              value={formData.joiningInstitute}
+              name="joiningInstituteName"
+              value={formData.joiningInstituteName}
               onChange={handleChange}
               fullWidth
               margin="normal"
@@ -185,14 +242,50 @@ export default function HigherStudiesForm() {
             />
             <TextField
               label="Joining Year Of New Institute"
-              name="joiningYear"
+              name="yearOfAdmission"
               type="number"
-              value={formData.joiningYear}
+              value={formData.yearOfAdmission}
               onChange={handleChange}
               fullWidth
               margin="normal"
               required
             />
+            <FormControl size="small" fullWidth sx={{ mt: 2 }}>
+              <InputLabel id="demo-select-small-label" sx={{ mt: 1 }}>
+                Specialization
+              </InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={formData.course}
+                label="Specialization"
+                name="course"
+                onChange={handleChange}
+                fullWidth
+                sx={{ height: 53 }}
+              >
+                <MenuItem value="Mtech">MTech</MenuItem>
+                <MenuItem value="MBA">MBA</MenuItem>
+                <MenuItem value="MSC">MSS</MenuItem>
+                <MenuItem value="PHD">TOEFL</MenuItem>
+                <MenuItem value="MS">DUOLINGO</MenuItem>
+                <MenuItem value="other">Other</MenuItem>
+              </Select>
+            </FormControl>
+
+            {formData.course === "other" && (
+              <TextField
+                label="Enter other exam type"
+                name="customCourse"
+                type="text"
+                value={formData.customCourse}
+                onChange={handleChange}
+                fullWidth
+                margin="normal"
+                required={formData.course === "other"} // Only make this required when "other" is selected
+                sx={{ mt: 3 }}
+              />
+            )}
             <File />
 
             <Button
