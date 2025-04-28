@@ -275,7 +275,7 @@ export default function HigherStudiesForm() {
 
             {formData.course === "other" && (
               <TextField
-                label="Enter other exam type"
+                label="Enter other specialization"
                 name="customCourse"
                 type="text"
                 value={formData.customCourse}
